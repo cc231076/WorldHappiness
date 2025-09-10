@@ -2,58 +2,136 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8" />
-    <title>World Happiness Map</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Exploring Global Happiness</title>
     <style>
         :root {
-            --bg:#f6f7f9;
-            --card:#ffffff;
-            --ink:#222;
-            --muted:#7a7a7a;
-            --border:#e6e7ea;
-            --accent:#3b82f6;
+            --bg:#0f172a;          /* slate-900 */
+            --ink:#e5e7eb;         /* gray-200 */
+            --muted:#94a3b8;       /* slate-400 */
+            --card:#111827;        /* gray-900 */
+            --cardBorder:#1f2937;  /* gray-800 */
+            --accent:#60a5fa;      /* blue-400 */
+            --accent2:#34d399;     /* emerald-400 */
+            --panel:#0b1223;
         }
         * { box-sizing: border-box; }
-        body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; color:var(--ink); background:var(--bg); }
-        h1 { margin: 16px 16px 8px; font-size: 28px; }
-        .layout { display:flex; gap:16px; align-items:stretch; padding:0 16px 16px; }
-        .map-wrap { flex:1; background:var(--card); border:1px solid var(--border); border-radius:12px; box-shadow:0 1px 2px rgba(0,0,0,0.05); padding:8px; }
-        svg#map { width:100%; height:70vh; display:block; }
-        .country { stroke:#aaa; stroke-width:.5px; cursor:pointer; }
+        html, body { margin:0; padding:0; color:var(--ink); background:linear-gradient(180deg,#0b1020 0%, #0f172a 40%, #0f172a 100%); font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; scroll-behavior:smooth; }
+        a { color:inherit; text-decoration:none; }
+        .container { width:min(1200px, 92vw); margin:0 auto; }
+        /* --- NAV --- */
+        .nav { position:sticky; top:0; z-index:10; backdrop-filter:saturate(140%) blur(6px); background:rgba(15,23,42,0.6); border-bottom:1px solid rgba(255,255,255,.06); }
+        .nav-inner { display:flex; align-items:center; justify-content:space-between; padding:14px 0; }
+        .brand { font-weight:700; letter-spacing:.2px; }
+        .pill { padding:8px 14px; border-radius:999px; border:1px solid rgba(255,255,255,.12); color:var(--ink); transition:all .25s ease; }
+        .pill:hover { border-color:rgba(255,255,255,.28); transform:translateY(-1px); }
+        /* --- HERO --- */
+        .hero { position:relative; padding:120px 0 80px; overflow:hidden; }
+        .hero h1 { font-size: clamp(32px, 6vw, 64px); margin:0 0 10px; line-height:1.04; }
+        .hero p { color:var(--muted); font-size: clamp(16px, 2vw, 20px); max-width: 780px; }
+        .cta { display:flex; gap:12px; margin-top:24px; }
+        .btn { background:linear-gradient(135deg, var(--accent), var(--accent2)); color:#0b1020; font-weight:700; padding:12px 18px; border-radius:12px; border:none; cursor:pointer; transition:transform .2s ease, box-shadow .2s ease; box-shadow:0 10px 30px rgba(52, 211, 153,.15); }
+        .btn:hover { transform:translateY(-1px); }
+        .ghost { background:transparent; color:var(--ink); border:1px solid rgba(255,255,255,.16); box-shadow:none; }
+        .orb { position:absolute; width:520px; height:520px; right:-120px; top:-100px; background:radial-gradient(60% 60% at 50% 50%, rgba(52,211,153,.35), rgba(96,165,250,.18) 60%, rgba(255,255,255,0) 70%); filter: blur(12px); pointer-events:none; }
+        .scroll-hint { display:flex; align-items:center; gap:10px; color:var(--muted); margin-top:40px; }
+        .scroll-dot { width:8px; height:8px; background:var(--accent2); border-radius:50%; animation: pulse 1.6s infinite; }
+        @keyframes pulse { 0%{ transform:scale(1); opacity:1;} 70%{ transform:scale(1.8); opacity:.15;} 100%{ transform:scale(1); opacity:1;} }
+        /* --- INFO CARDS --- */
+        .cards { margin-top:40px; display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:16px; }
+        .card { background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.08); border-radius:16px; padding:16px; min-height:110px; }
+        .card b { color:#e2e8f0; }
+        /* --- VIZ SECTION --- */
+        section#viz { padding:70px 0 60px; background:linear-gradient(180deg, #0f172a 0%, #0f172a 60%, #0b1223 100%); border-top:1px solid rgba(255,255,255,.06); }
+        h2.sec { margin:0 0 18px; font-size:28px; }
+        .layout { display:flex; gap:16px; align-items:stretch; }
+        .map-wrap { flex:1; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); border-radius:16px; box-shadow:0 1px 2px rgba(0,0,0,0.2); padding:8px; }
+        svg#map { width:100%; height:68vh; display:block; border-radius:12px; }
+        .country { stroke:#334155; stroke-width:.5px; cursor:pointer; }
         .controls { display:flex; align-items:center; gap:12px; padding:8px 0 0 8px; color:var(--muted); }
         input[type="range"] { width:280px; }
-        aside#panel { width:360px; background:var(--card); border:1px solid var(--border); border-radius:12px; padding:16px; box-shadow:0 1px 2px rgba(0,0,0,0.05); }
+        aside#panel { width:380px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); border-radius:16px; padding:16px; box-shadow:0 1px 2px rgba(0,0,0,0.2); }
         .panel-title { display:flex; align-items:baseline; justify-content:space-between; margin-bottom:8px; }
-        .panel-title h2 { margin:0; font-size:22px; }
+        .panel-title h3 { margin:0; font-size:22px; }
         .subtle { color:var(--muted); font-size:12px; }
         #sparkline { margin:8px 0 16px; }
         .factor-row { display:flex; align-items:center; gap:10px; margin:10px 0; }
-        .factor-label { flex:0 0 130px; text-align:left; }
-        .bar-wrap { flex:1; background:#f1f3f5; height:10px; border-radius:999px; overflow:hidden; }
-        .bar { height:100%; border-radius:999px; background:#84cc16; }
+        .factor-label { flex:0 0 140px; text-align:left; }
+        .bar-wrap { flex:1; background:#0d152a; height:10px; border-radius:999px; overflow:hidden; }
+        .bar { height:100%; border-radius:999px; background:linear-gradient(90deg, var(--accent), var(--accent2)); }
         .value { flex:0 0 48px; text-align:right; color:var(--muted); font-variant-numeric: tabular-nums; }
-        .tooltip { position:absolute; padding:5px 10px; background:rgba(0,0,0,.7); color:white; border-radius:4px; pointer-events:none; opacity:0; }
+        .tooltip { position:absolute; padding:6px 10px; background:rgba(3,7,18,.82); color:#fff; border:1px solid rgba(255,255,255,.12); border-radius:6px; pointer-events:none; opacity:0; font-size:12px; }
+        footer { padding:40px 0; color:var(--muted); text-align:center; }
     </style>
 </head>
 <body>
-<h1>World Happiness Map</h1>
-<div class="layout">
-    <div class="map-wrap">
-        <svg id="map"></svg>
-        <div class="controls">
-            <input type="range" id="yearSlider" min="2011" max="2024" value="2024" />
-            <span id="yearLabel">2024</span>
+<!-- NAV -->
+<div class="nav">
+    <div class="container nav-inner">
+        <div class="brand">Exploring Global Happiness</div>
+        <a class="pill" href="#viz">Zur Visualisierung</a>
+    </div>
+</div>
+
+<!-- HERO -->
+<header class="hero">
+    <div class="orb"></div>
+    <div class="container">
+        <h1>Tracke Trends, vergleiche Länder<br/>und entdecke die Daten hinter dem Glück.</h1>
+        <p>Basierend auf dem <b>World Happiness Report</b> zeigt diese Seite globale Muster des Wohlbefindens. Klicke dich durch die Weltkarte, sieh dir Entwicklungen über die Jahre an und vergleiche die wichtigsten Einflussfaktoren.</p>
+        <div class="cta">
+            <a href="#viz" class="btn">Jetzt erkunden</a>
+            <a href="#about" class="btn ghost">Was wird gezeigt?</a>
+        </div>
+        <div class="scroll-hint"><div class="scroll-dot"></div><span>Scroll nach unten, um die Karte zu sehen</span></div>
+        <div class="cards">
+            <div class="card"><b>Interaktiv:</b><br/>Klicke auf ein Land und sieh Ladder-Score & Faktoren.</div>
+            <div class="card"><b>Zeitleiste:</b><br/>Wähle ein Jahr & verfolge Entwicklungen.</div>
+            <div class="card"><b>Faktoren:</b><br/>GDP, Social Support, Health, Freedom, Generosity, Corruption.</div>
         </div>
     </div>
-    <aside id="panel">
-        <div class="panel-title">
-            <h2 id="countryTitle">Klicke ein Land</h2>
-            <div id="ladderToday" class="subtle"></div>
+</header>
+
+<!-- VIZ SECTION -->
+<section id="viz">
+    <div class="container">
+        <h2 class="sec">Globale Karte & Detailpanel</h2>
+        <div class="layout">
+            <div class="map-wrap">
+                <svg id="map"></svg>
+                <div class="controls">
+                    <input type="range" id="yearSlider" min="2011" max="2024" value="2024" />
+                    <span id="yearLabel">2024</span>
+                </div>
+            </div>
+            <aside id="panel">
+                <div class="panel-title">
+                    <h3 id="countryTitle">Klicke ein Land</h3>
+                    <div id="ladderToday" class="subtle"></div>
+                </div>
+                <div id="sparkline"></div>
+                <div id="factors"></div>
+                <div id="emptyNote" class="subtle">Tipp: Wähle links ein Land, um die Beitragsfaktoren (GDP, Social Support, Health, Freedom, Generosity, Corruption) für das gewählte Jahr zu sehen.</div>
+            </aside>
         </div>
-        <div id="sparkline"></div>
-        <div id="factors"></div>
-        <div id="emptyNote" class="subtle">Tipp: Wähle links ein Land, um die Beitragsfaktoren (GDP, Social Support, Health, Freedom, Generosity, Corruption) für das gewählte Jahr zu sehen.</div>
-    </aside>
-</div>
-<script type="module" src="/src/main.js"></script>
+    </div>
+</section>
+
+<section id="about">
+    <div class="container" style="padding:40px 0 20px">
+        <h2 class="sec">Über die Visualisierung</h2>
+        <p style="color:var(--muted)">Datenquelle: World Happiness Report. Die Kartenfarbe zeigt den <i>Rank</i> je Jahr. Die Balken im Detail-Panel sind auf das Maximum des jeweiligen Faktors normalisiert, damit die Längen vergleichbar sind.</p>
+    </div>
+</section>
+
+<footer>
+    <div class="container">© 2025 – World Happiness Visualisierung</div>
+</footer>
+
+<!-- isoMap.js -->
+<script src="./src/isoMap.js"></script>
+
+<!-- main.js als ESM -->
+<script type="module" src="./src/main.js"></script>
 </body>
 </html>
