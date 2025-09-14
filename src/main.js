@@ -142,6 +142,9 @@ function showCountryPanel(iso3, displayName) {
     merged.select(".bar").transition().duration(350).style("width", d => (d.value/(d.max||1))*100 + "%");
     merged.select(".value").text(d=> d3.format(".2f")(d.value));
     rowsSel.exit().remove();
+
+    // Covid comparison chart
+    drawCovidComparison(rows);
 }
 
 // ---- Lazy init: starte Visualisierung erst, wenn #viz sichtbar wird ----
@@ -201,4 +204,63 @@ if ("IntersectionObserver" in window && vizSection) {
 } else {
     // Fallback: init immediately
     initViz();
+}
+
+function drawCovidComparison(rows) {
+    const container = d3.select("#covidChart");
+    container.selectAll("*").remove(); // clear previous
+
+    // Define pre/post covid years
+    const preYears = rows.filter(r => r.year >= 2015 && r.year <= 2019);
+    const postYears = rows.filter(r => r.year >= 2020);
+
+    const preAvg = preYears.length ? d3.mean(preYears, r => r.ladder) : null;
+    const postAvg = postYears.length ? d3.mean(postYears, r => r.ladder) : null;
+
+    if (preAvg == null && postAvg == null) {
+        container.append("p").text("No data available for this country.");
+        return;
+    }
+
+    const data = [
+        { period: "Pre-Covid (2015–2019)", value: preAvg },
+        { period: "Post-Covid (2020+)", value: postAvg }
+    ].filter(d => d.value != null);
+
+    const w = 300, h = 150, m = { t: 20, r: 20, b: 40, l: 40 };
+    const svg = container.append("svg").attr("width", w).attr("height", h);
+
+    const x = d3.scaleBand().domain(data.map(d => d.period)).range([m.l, w - m.r]).padding(0.3);
+    const y = d3.scaleLinear().domain([0, d3.max(data, d => d.value) || 1]).nice().range([h - m.b, m.t]);
+
+    // Bars
+    svg.selectAll("rect").data(data).enter()
+        .append("rect")
+        .attr("x", d => x(d.period))
+        .attr("y", d => y(d.value))
+        .attr("width", x.bandwidth())
+        .attr("height", d => y(0) - y(d.value))
+        .attr("fill", "#3b82f6");
+
+    // Values on top
+    svg.selectAll("text.value").data(data).enter()
+        .append("text")
+        .attr("class", "value")
+        .attr("x", d => x(d.period) + x.bandwidth() / 2)
+        .attr("y", d => y(d.value) - 5)
+        .attr("text-anchor", "middle")
+        .attr("fill", "#fff")
+        .text(d => d3.format(".2f")(d.value));
+
+    // X Axis
+    svg.append("g")
+        .attr("transform", `translate(0,${h - m.b})`)
+        .call(d3.axisBottom(x))
+        .selectAll("text")
+        .style("font-size", "10px");
+
+    // Y Axis
+    svg.append("g")
+        .attr("transform", `translate(${m.l},0)`)
+        .call(d3.axisLeft(y).ticks(5));
 }
