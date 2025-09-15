@@ -2,11 +2,11 @@ export const countryToISO3 = {
     "Montenegro": "MNE",
     "North Macedonia": "MKD",
     "State of Palestine": "PSE",
-    "Palestine": "PSE", // alternate
+    "Palestine": "PSE",
     "Albania": "ALB",
     "Niger": "NER",
     "Myanmar": "MMR",
-    "Viet Nam": "VNM", // alternate
+    "Viet Nam": "VNM",
     "Iran": "IRN",
     "Liberia": "LBR",
     "Burkina Faso": "BFA",
@@ -16,7 +16,7 @@ export const countryToISO3 = {
     "Madagascar": "MDG",
     "Cambodia": "KHM",
     "Laos": "LAO",
-    "Lao PDR": "LAO", // alternate
+    "Lao PDR": "LAO",
     "Senegal": "SEN",
     "Gambia": "GMB",
     "Morocco": "MAR",
@@ -43,11 +43,11 @@ export const countryToISO3 = {
     "Uganda": "UGA",
     "Comoros": "COM",
     "Eswatini": "SWZ",
-    "Swaziland": "SWZ", // alternate
+    "Swaziland": "SWZ",
     "Zimbabwe": "ZWE",
     "Lesotho": "LSO",
     "Congo (Kinshasa)": "COD",
-    "DR Congo": "COD", // alternate
+    "DR Congo": "COD",
     "Congo": "COG",
     "Congo (Brazzaville)": "COG",
     "Botswana": "BWA",
@@ -63,10 +63,10 @@ export const countryToISO3 = {
     "Kyrgyzstan": "KGZ",
     "Panama": "PAN",
     "Cyprus": "CYP",
-    "North Cyprus": "XNC", // alternate
+    "North Cyprus": "XNC",
     "Honduras": "HND",
     "South Korea": "KOR",
-    "Republic of Korea": "KOR", // alternate
+    "Republic of Korea": "KOR",
     "Slovakia": "SVK",
     "Bahrain": "BHR",
     "Algeria": "DZA",
@@ -74,7 +74,7 @@ export const countryToISO3 = {
     "Venezuela": "VEN",
     "Bolivia": "BOL",
     "Russia": "RUS",
-    "Russian Federation": "RUS", // alternate
+    "Russian Federation": "RUS",
     "Greece": "GRC",
     "Jamaica": "JAM",
     "Vietnam": "VNM",
@@ -83,12 +83,12 @@ export const countryToISO3 = {
     "Colombia": "COL",
     "Peru": "PER",
     "Hong Kong SAR of China": "HKG",
-    "Hong Kong": "HKG", // alternate
+    "Hong Kong": "HKG",
     "Dominican Republic": "DOM",
-    "Dominican Rep.": "DOM", // alternate
+    "Dominican Rep.": "DOM",
     "Nepal": "NPL",
     "Bosnia and Herzegovina": "BIH",
-    "Bosnia and Herz.": "BIH", // alternate
+    "Bosnia and Herz.": "BIH",
     "Indonesia": "IDN",
     "Croatia": "HRV",
     "Guinea": "GIN",
@@ -96,19 +96,19 @@ export const countryToISO3 = {
     "Paraguay": "PRY",
     "Ecuador": "ECU",
     "Moldova": "MDA",
-    "Republic of Moldova": "MDA", // alternate
+    "Republic of Moldova": "MDA",
     "Tajikistan": "TJK",
     "Armenia": "ARM",
     "Mozambique": "MOZ",
     "Bulgaria": "BGR",
     "Georgia": "GEO",
     "Turkey (Türkiye)": "TUR",
-    "Turkey": "TUR", // alternate
+    "Turkey": "TUR",
     "Mauritania": "MRT",
     "Chad": "TCD",
     "Iraq": "IRQ",
     "Ivory Coast": "CIV",
-    "Côte d’Ivoire": "CIV", // alternate
+    "Côte d’Ivoire": "CIV",
     "Denmark": "DNK",
     "Finland": "FIN",
     "Norway": "NOR",
@@ -132,7 +132,7 @@ export const countryToISO3 = {
     "Germany": "DEU",
     "Uzbekistan": "UZB",
     "Czechia": "CZE",
-    "Czech Rep.": "CZE", // alternate
+    "Czech Rep.": "CZE",
     "Uruguay": "URY",
     "France": "FRA",
     "Singapore": "SGP",
@@ -142,7 +142,7 @@ export const countryToISO3 = {
     "Spain": "ESP",
     "China": "CHN",
     "Taiwan Province of China": "TWN",
-    "Taiwan": "TWN", // alternate
+    "Taiwan": "TWN",
     "Estonia": "EST",
     "Japan": "JPN",
     "Brazil": "BRA",
@@ -172,7 +172,7 @@ export const countryToISO3 = {
     "Puerto Rico": "PRI",
     "Rwanda": "RWA",
     "Somalia": "SOM",
-    "Somaliland Region": "SOM", // alternate
+    "Somaliland Region": "SOM",
     "South Sudan": "SSD",
     "Sudan": "SDN",
     "Suriname": "SUR",
@@ -189,9 +189,9 @@ export const countryToISO3 = {
     "Vanuatu": "VUT",
     "Bahamas": "BHS",
     "Mexico": "MEX",
-    "N. Cyprus": "XNC",           // alternate for North Cyprus
-    "Korea": "KOR",               // alternate for South Korea
-    "Dem. Rep. Korea": "PRK",     // North Korea
+    "N. Cyprus": "XNC",
+    "Korea": "KOR",
+    "Dem. Rep. Korea": "PRK",
     "Qatar": "QAT",
     "Côte d'Ivoire": "CIV",
     "Central African Rep.": "CAF",
