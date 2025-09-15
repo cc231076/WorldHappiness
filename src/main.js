@@ -16,6 +16,9 @@ let worldData, happinessData, projection, path;
 let byISO = new Map();
 let selectedISO = null;
 let initialized = false;
+//events
+let eventsData = {};
+
 
 const factorKeys = [
     { key: "gdp",        label: "GDP per capita",            csv: "Explained by: Log GDP per capita" },
@@ -51,6 +54,9 @@ async function loadData() {
     });
 
     const world = await d3.json("/data/world.geo.json");
+
+    //historische Events laden
+    eventsData = await d3.json("/data/events.json");
 
     // Map GeoJSON name -> ISO3 using provided dictionary
     world.features.forEach(f => {
@@ -145,6 +151,42 @@ function showCountryPanel(iso3, displayName) {
 
     // Covid comparison chart
     drawCovidComparison(rows);
+
+// Historical events
+    const historyEl = d3.select("#history");
+    historyEl.selectAll("*").remove();
+
+    const activeYear = +slider.property("value");
+
+    if (eventsData && eventsData[iso3]) {
+        const entries = Object.entries(eventsData[iso3])
+            .map(([y, arr]) => ({ y: +y, ev: arr }))
+            .sort((a,b) => d3.descending(a.y, b.y));
+
+        // optional: nur Jahre bis zum aktiven Jahr
+        const filtered = entries.filter(e => e.y <= activeYear);
+        const list = filtered.length ? filtered : entries; // <-- FEHLTE
+
+        list.forEach(({ y, ev }) => {
+            const isActive = (y === activeYear);
+            const block = historyEl.append("div")
+                .attr("class", "event-block" + (isActive ? " active" : "")); // <-- "class", nicht "calss"
+
+            block.append("div")
+                .attr("class", "event-year")
+                .text(y);
+
+            ev.forEach((txt, i) => {
+                block.append("div")
+                    .attr("class", "event-text" + (isActive && i === 0 ? " headline" : ""))
+                    .text(txt);
+            });
+        });
+    } else {
+        historyEl.append("div").attr("class", "subtle").text("Keine Ereignisse hinterlegt.");
+    }
+
+
 }
 
 // ---- Lazy init: starte Visualisierung erst, wenn #viz sichtbar wird ----

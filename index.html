@@ -62,6 +62,22 @@
         .value { flex:0 0 48px; text-align:right; color:var(--muted); font-variant-numeric: tabular-nums; }
         .tooltip { position:absolute; padding:6px 10px; background:rgba(3,7,18,.82); color:#fff; border:1px solid rgba(255,255,255,.12); border-radius:6px; pointer-events:none; opacity:0; font-size:12px; }
         footer { padding:40px 0; color:var(--muted); text-align:center; }
+
+        #history { margin-top:20px; font-size:13px; color:var(--ink); }
+        .event-block {
+            margin-bottom:12px;
+            padding:8px;
+            border-left:2px solid var(--accent2);
+            border-radius:8px;
+            background:rgba(255,255,255,.02);
+        }
+        .event-block.active { background:rgba(96,165,250,.10); } /* aktives Jahr */
+        .event-year { font-weight:700; color:var(--accent2); margin-bottom:4px; }
+        .event-text { color:var(--muted); margin-left:6px; line-height:1.4; }
+        .event-text.headline { font-weight:700; color:var(--ink); } /* Headline fett */
+
+
+
     </style>
 </head>
 <body>
@@ -115,6 +131,9 @@
                 <div id="covidComparison">
                     <div id="covidChart"></div>
                 </div>
+
+                <!-- Events -->
+                <div id="history"></div>
 
                 <div id="emptyNote" class="subtle">Tipp: Wähle links ein Land, um die Beitragsfaktoren (GDP, Social Support, Health, Freedom, Generosity, Corruption) für das gewählte Jahr zu sehen.</div>
             </aside>
