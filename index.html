@@ -75,9 +75,6 @@
         .event-year { font-weight:700; color:var(--accent2); margin-bottom:4px; }
         .event-text { color:var(--muted); margin-left:6px; line-height:1.4; }
         .event-text.headline { font-weight:700; color:var(--ink); } /* Headline fett */
-
-
-
     </style>
 </head>
 <body>
@@ -85,7 +82,7 @@
 <div class="nav">
     <div class="container nav-inner">
         <div class="brand">Exploring Global Happiness</div>
-        <a class="pill" href="#viz">Zur Visualisierung</a>
+        <a class="pill" href="#viz">Go to visualization</a>
     </div>
 </div>
 
@@ -93,17 +90,17 @@
 <header class="hero">
     <div class="orb"></div>
     <div class="container">
-        <h1>Tracke Trends, vergleiche Länder<br/>und entdecke die Daten hinter dem Glück.</h1>
-        <p>Basierend auf dem <b>World Happiness Report</b> zeigt diese Seite globale Muster des Wohlbefindens. Klicke dich durch die Weltkarte, sieh dir Entwicklungen über die Jahre an und vergleiche die wichtigsten Einflussfaktoren.</p>
+        <h1>Track trends, compare countries,<br/>and discover the data behind happiness.</h1>
+        <p>Based on the <b>World Happiness Report</b>, this site reveals global patterns of well-being. Click through the world map, explore developments over the years, and compare the key contributing factors.</p>
         <div class="cta">
-            <a href="#viz" class="btn">Jetzt erkunden</a>
-            <a href="#about" class="btn ghost">Was wird gezeigt?</a>
+            <a href="#viz" class="btn">Explore now</a>
+            <a href="#about" class="btn ghost">What’s shown?</a>
         </div>
-        <div class="scroll-hint"><div class="scroll-dot"></div><span>Scroll nach unten, um die Karte zu sehen</span></div>
+        <div class="scroll-hint"><div class="scroll-dot"></div><span>Scroll down to see the map</span></div>
         <div class="cards">
-            <div class="card"><b>Interaktiv:</b><br/>Klicke auf ein Land und sieh Ladder-Score & Faktoren.</div>
-            <div class="card"><b>Zeitleiste:</b><br/>Wähle ein Jahr & verfolge Entwicklungen.</div>
-            <div class="card"><b>Faktoren:</b><br/>GDP, Social Support, Health, Freedom, Generosity, Corruption.</div>
+            <div class="card"><b>Interactive:</b><br/>Click a country to see its ladder score & factors.</div>
+            <div class="card"><b>Timeline:</b><br/>Pick a year & follow changes.</div>
+            <div class="card"><b>Factors:</b><br/>GDP, Social Support, Health, Freedom, Generosity, Corruption.</div>
         </div>
     </div>
 </header>
@@ -111,7 +108,7 @@
 <!-- VIZ SECTION -->
 <section id="viz">
     <div class="container">
-        <h2 class="sec">Globale Karte & Detailpanel</h2>
+        <h2 class="sec">Global map & detail panel</h2>
         <div class="layout">
             <div class="map-wrap">
                 <svg id="map"></svg>
@@ -122,7 +119,7 @@
             </div>
             <aside id="panel">
                 <div class="panel-title">
-                    <h3 id="countryTitle">Klicke ein Land</h3>
+                    <h3 id="countryTitle">Click a country</h3>
                     <div id="ladderToday" class="subtle"></div>
                 </div>
                 <div id="sparkline"></div>
@@ -135,7 +132,7 @@
                 <!-- Events -->
                 <div id="history"></div>
 
-                <div id="emptyNote" class="subtle">Tipp: Wähle links ein Land, um die Beitragsfaktoren (GDP, Social Support, Health, Freedom, Generosity, Corruption) für das gewählte Jahr zu sehen.</div>
+                <div id="emptyNote" class="subtle">Tip: Select a country on the left to see the contributing factors (GDP, Social Support, Health, Freedom, Generosity, Corruption) for the selected year.</div>
             </aside>
         </div>
     </div>
@@ -143,19 +140,19 @@
 
 <section id="about">
     <div class="container" style="padding:40px 0 20px">
-        <h2 class="sec">Über die Visualisierung</h2>
-        <p style="color:var(--muted)">Datenquelle: World Happiness Report. Die Kartenfarbe zeigt den <i>Rank</i> je Jahr. Die Balken im Detail-Panel sind auf das Maximum des jeweiligen Faktors normalisiert, damit die Längen vergleichbar sind.</p>
+        <h2 class="sec">About the visualization</h2>
+        <p style="color:var(--muted)">Data source: World Happiness Report. The map color shows the <i>rank</i> for each year. The bars in the detail panel are normalized to each factor’s maximum so their lengths are comparable.</p>
     </div>
 </section>
 
 <footer>
-    <div class="container">© 2025 – World Happiness Visualisierung</div>
+    <div class="container">© 2025 – World Happiness Visualization</div>
 </footer>
 
 <!-- isoMap.js -->
 <script src="./src/isoMap.js"></script>
 
-<!-- main.js als ESM -->
+<!-- main.js as ESM -->
 <script type="module" src="./src/main.js"></script>
 </body>
 </html>
